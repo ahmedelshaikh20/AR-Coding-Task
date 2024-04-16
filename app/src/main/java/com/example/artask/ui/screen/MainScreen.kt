@@ -26,27 +26,29 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
     Row(
       modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 10.dp),
+        .padding(vertical = 15.dp, horizontal = 15.dp),
       horizontalArrangement = Arrangement.SpaceAround,
 
       ) {
-      ButtonComponent(value = "All", isEnabled = false, onClick = {
-        viewModel.updateVisibility()
+      ButtonComponent(value = "All", isEnabled = state.showFavOnly, onClick = {
+        viewModel.updateVisibility("All")
         viewModel.getArticles()
       })
       ButtonComponent(
         value = "Favourite",
-        isEnabled = true,
+        isEnabled = !state.showFavOnly,
         onClick = {
-          viewModel.updateVisibility()
+          viewModel.updateVisibility("Fav")
           viewModel.getAllFav()
         })
     }
-    SearchBar(onQueryChange = { viewModel.updateQuery(it) },
+    SearchBar(onQueryChange = {
+      viewModel.clearArticles()
+      viewModel.updateQuery(it) },
       onSearchClick = { viewModel.getArticles() })
-    AnimatedVisibility(visible =state.showFavOnly ) {
+    AnimatedVisibility(visible =!state.showFavOnly ) {
 
-
+      if (state.articles.isNotEmpty()){
     LazyColumn(
       verticalArrangement = Arrangement.Center,
       horizontalAlignment = Alignment.CenterHorizontally
@@ -64,14 +66,18 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
           onFavoriteClick = {
             viewModel.updateFavArticle(article)
           },
-          isFav = article.isFav)
+          isFav = article.isFav ,
+          publishedAt = article.publishDate)
+
       }
-    }
-
+    }}
+      else {
+        BasicTextField(value = "No Articles To Show" )
+      }
   }
-    AnimatedVisibility(visible =!state.showFavOnly ) {
+    AnimatedVisibility(visible =state.showFavOnly ) {
 
-
+   if (state.favArticles.isNotEmpty()){
       LazyColumn(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -89,9 +95,15 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
             onFavoriteClick = {
               viewModel.updateFavArticle(article)
             },
-            isFav = article.isFav)
+            isFav = article.isFav ,
+            publishedAt = article.publishDate)
         }
-      }
+      }}
+      else {
+      BasicTextField(value = "No Articles To Show" )
+    }
 
-    }}
+    }
+
+  }
 }

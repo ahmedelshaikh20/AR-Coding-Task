@@ -10,7 +10,8 @@ fun Article.toArticleEntity(query: String, isFav: Boolean): ArticleEntity {
     author = author,
     description = description,
     query = query,
-    isFav = isFav
+    isFav = isFav,
+    publishDate = publishedAt
   )
 }
 
@@ -22,7 +23,8 @@ fun ArticleEntity.toArticleModel(): ArticleModel {
     author = author,
     description = description,
     query = query,
-    isFav = isFav
+    isFav = isFav,
+    publishDate = publishDate
 
   )
 }
@@ -35,7 +37,8 @@ fun ArticleModel.toArticleEntity(): ArticleEntity {
     author = author,
     description = description,
     query = query,
-    isFav = isFav
+    isFav = isFav,
+    publishDate = publishDate
 
   )
 }

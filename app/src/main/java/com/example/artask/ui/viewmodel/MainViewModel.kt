@@ -28,7 +28,12 @@ class MainViewModel @Inject constructor(
 
   fun getArticles() {
     viewModelScope.launch {
+      if (state.query!="")
       state = state.copy(articles = getAllArticles(state.query))
+      else {
+        state = state.copy(articles = emptyList())
+
+      }
     }
   }
 
@@ -36,7 +41,7 @@ class MainViewModel @Inject constructor(
     viewModelScope.launch {
       addFavouriteArticle(article.copy(isFav = !article.isFav))
       updateArticles()
-      Log.d("YESS", state.favArticles.size.toString())
+
     }
 
   }
@@ -47,9 +52,18 @@ class MainViewModel @Inject constructor(
     }
   }
 
-  fun updateArticles() {
+  private fun updateArticles() {
     viewModelScope.launch {
       state = state.copy(articles = getAllArticles(state.query))
+      state = state.copy(favArticles = getAllFavoriteArticles(state.query))
+
+
+    }
+  }
+   fun clearArticles() {
+    viewModelScope.launch {
+      state = state.copy(articles = emptyList())
+      state = state.copy(favArticles = emptyList())
     }
   }
 
@@ -59,9 +73,9 @@ class MainViewModel @Inject constructor(
     }
   }
 
-  fun updateVisibility() {
+  fun updateVisibility(target:String) {
     viewModelScope.launch {
-      state = state.copy(showFavOnly = !state.showFavOnly)
+      state = state.copy(showFavOnly = target != "All")
     }
   }
 

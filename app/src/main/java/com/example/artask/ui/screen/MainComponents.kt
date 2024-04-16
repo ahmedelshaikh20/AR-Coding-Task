@@ -1,5 +1,7 @@
 package com.example.artask.ui.screen
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -56,7 +59,7 @@ fun BasicTextField(value: String, modifier: Modifier = Modifier) {
     fontFamily = fontsfamilys.poppinsFamily,
     fontStyle = FontStyle.Normal,
     fontWeight = FontWeight(200),
-    color = colorResource(id = R.color.black),
+    color = colorResource(id = R.color.white),
     textAlign = TextAlign.Center
   )
 }
@@ -169,6 +172,7 @@ fun ResultItem(
   modifier: Modifier = Modifier,
   author: String,
   title: String,
+  publishedAt : String,
   onClick: () -> Unit,
   onFavoriteClick: () -> Unit,
   isFav: Boolean
@@ -179,14 +183,14 @@ fun ResultItem(
       .clip(RoundedCornerShape(10.dp))
       .clickable {
         onClick()
-      }
+      }.background(Color.Black)
   ) {
 
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
       Column(verticalArrangement = Arrangement.SpaceBetween) {
 
         FavoriteButton(
-          modifier = Modifier.padding(8.dp),
+          modifier = Modifier.padding(8.dp).align(Alignment.End),
           onFavoriteClick = onFavoriteClick,
           isFav = isFav
         )
@@ -202,6 +206,15 @@ fun ResultItem(
         )
         Text(
           text = title,
+          modifier = Modifier.padding(vertical = 10.dp, horizontal = 10.dp),
+          style = TextStyle(
+            color = Color.White,
+            fontWeight = FontWeight.Light,
+            fontSize = 20.sp
+          )
+        )
+        Text(
+          text = publishedAt,
           modifier = Modifier.padding(vertical = 10.dp, horizontal = 10.dp),
           style = TextStyle(
             color = Color.White,
@@ -229,7 +242,7 @@ fun FavoriteButton(
     checked = isFavorite,
     onCheckedChange = {
       onFavoriteClick()
-      isFavorite = isFav
+      isFavorite = it
     }
   ) {
     Icon(
