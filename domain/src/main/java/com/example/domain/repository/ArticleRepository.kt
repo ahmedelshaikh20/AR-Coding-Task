@@ -1,4 +1,4 @@
-package com.example.domain.usecases.repository
+package com.example.domain.repository
 
 import ArticleModel
 

@@ -1,15 +1,11 @@
 package com.example.artask.ui.viewmodel
 
 import ArticleModel
-import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Query
-import com.example.data.model.ArticlesResponse
 import com.example.domain.usecases.AddFavouriteArticle
 import com.example.domain.usecases.GetAllArticles
 import com.example.domain.usecases.GetAllFavoriteArticles
@@ -79,7 +75,6 @@ class MainViewModel @Inject constructor(
     }
   }
 
-  init {
-  }
+
 
 }

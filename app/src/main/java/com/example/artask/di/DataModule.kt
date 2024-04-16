@@ -7,7 +7,7 @@ import com.example.data.api.ArticleApi.Companion.BASE_URL
 import com.example.data.client.ArticleClient
 import com.example.data.database.ArticleDatabase
 import com.example.data.repository.ArticleRepoImpl
-import com.example.domain.usecases.repository.ArticleRepository
+import com.example.domain.repository.ArticleRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +40,7 @@ object DataModule {
   }
 
   @Provides
-  fun provideRepo (articleClient: ArticleClient) : ArticleRepository{
+  fun provideRepo (articleClient: ArticleClient) : ArticleRepository {
     return ArticleRepoImpl(articleClient)
   }
 
@@ -49,7 +49,7 @@ object DataModule {
     return Room.databaseBuilder(
       application,
       ArticleDatabase::class.java,
-      "notesdatabase"
+      "articlesdatabase"
     )
       .fallbackToDestructiveMigration()
       .build()
